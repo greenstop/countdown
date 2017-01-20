@@ -83,7 +83,7 @@ int main ()
     //727; 50, 100, 9, 1, 9, 3
     //(9-1)50+(100+9)3
     //TODO account for multiple uses of 50 and 3
-    printf("hello from countdown V3.0\n");
+    printf("hello from countdown\n");
 
     assert( actionsSize == 4);
 
