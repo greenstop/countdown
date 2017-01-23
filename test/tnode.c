@@ -237,6 +237,7 @@ void testDelinker()
 void testGoalTest() 
 {
     //initialize
+    char actions[] = {'+','-','*','/'};
     struct node *n = nalloc();
     struct numNode *root = numNodealloc();
     char op = '+';
@@ -294,6 +295,28 @@ void testGoalTest()
     result = goalTest( n, root, op);
     assert( !result);
     assert( n->total == 100.0);
+
+    //a test round
+    n->total = 450;
+    root->number = 100;
+    op = actions[1];
+    setGoal( 350);
+    assert( getGoal() == 350);
+    //process action and goal test
+    result = goalTest( n, root, op);
+    assert( result);
+    assert( n->total == (450.0 - 100.0));
+
+    //a test round
+    n->total = 10;
+    root->number = 100;
+    op = actions[1];
+    setGoal( 350);
+    assert( getGoal() == 350);
+    //process action and goal test
+    result = goalTest( n, root, op);
+    assert( !result);
+    assert( n->total == (10.0 - 100.0));
 
     //free
     freeNode( n);
