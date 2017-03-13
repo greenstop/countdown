@@ -100,8 +100,10 @@ int main ()
     //setup
     //setGoal( 801);
     //int seq[] = {75, 25, 4 ,9, 10, 5};
-    setGoal( 363);
-    int seq[] = {100, 75, 10, 6, 7, 10};
+    setGoal( 226);
+    int seq[] = {3,7,9,1,5,100};
+    //setGoal( 363);
+    //int seq[] = {100, 75, 10, 6, 7, 10};
     //setGoal( 727);
     //int seq[] = {50, 100, 9, 1, 9, 3};
     //setGoal( 350);

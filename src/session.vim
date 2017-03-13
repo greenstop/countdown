@@ -24,6 +24,7 @@ snoremap U b<BS>U
 nmap \H :nohl
 snoremap \ b<BS>\
 nmap \h :match currgroup /\(\%>'a\n\)\@<=.*\(\%<'b\n\)\@=/
+nnoremap \d 0y$:execute "w !echo \'word:".@0."\'"."; wordsfinder.py <<<\'".@0."\'"
 nnoremap \' :let @l=line('.')yl2<Down>:@lzt/0zzw
 nnoremap \c :set cursorline! cursorcolumn!
 nmap \x 0yl\z
@@ -111,7 +112,6 @@ set splitright
 set suffixes=.bak,~,.o,.h,.info,.swp,.obj,.class
 set tabstop=4
 set timeoutlen=200
-set window=47
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
@@ -193,28 +193,28 @@ wincmd w
 wincmd w
 wincmd t
 set winheight=1 winwidth=1
-exe '1resize ' . ((&lines * 11 + 24) / 48)
-exe 'vert 1resize ' . ((&columns * 23 + 71) / 143)
-exe '2resize ' . ((&lines * 33 + 24) / 48)
-exe 'vert 2resize ' . ((&columns * 23 + 71) / 143)
-exe '3resize ' . ((&lines * 41 + 24) / 48)
-exe 'vert 3resize ' . ((&columns * 81 + 71) / 143)
-exe '4resize ' . ((&lines * 1 + 24) / 48)
-exe 'vert 4resize ' . ((&columns * 81 + 71) / 143)
-exe '5resize ' . ((&lines * 1 + 24) / 48)
-exe 'vert 5resize ' . ((&columns * 55 + 71) / 143)
-exe '6resize ' . ((&lines * 1 + 24) / 48)
-exe 'vert 6resize ' . ((&columns * 25 + 71) / 143)
-exe '7resize ' . ((&lines * 26 + 24) / 48)
-exe 'vert 7resize ' . ((&columns * 37 + 71) / 143)
-exe '8resize ' . ((&lines * 12 + 24) / 48)
-exe 'vert 8resize ' . ((&columns * 37 + 71) / 143)
-exe '9resize ' . ((&lines * 1 + 24) / 48)
-exe 'vert 9resize ' . ((&columns * 37 + 71) / 143)
-exe '10resize ' . ((&lines * 1 + 24) / 48)
-exe 'vert 10resize ' . ((&columns * 37 + 71) / 143)
-exe '11resize ' . ((&lines * 1 + 24) / 48)
-exe 'vert 11resize ' . ((&columns * 37 + 71) / 143)
+exe '1resize ' . ((&lines * 5 + 15) / 30)
+exe 'vert 1resize ' . ((&columns * 22 + 69) / 138)
+exe '2resize ' . ((&lines * 21 + 15) / 30)
+exe 'vert 2resize ' . ((&columns * 22 + 69) / 138)
+exe '3resize ' . ((&lines * 23 + 15) / 30)
+exe 'vert 3resize ' . ((&columns * 78 + 69) / 138)
+exe '4resize ' . ((&lines * 1 + 15) / 30)
+exe 'vert 4resize ' . ((&columns * 78 + 69) / 138)
+exe '5resize ' . ((&lines * 1 + 15) / 30)
+exe 'vert 5resize ' . ((&columns * 53 + 69) / 138)
+exe '6resize ' . ((&lines * 1 + 15) / 30)
+exe 'vert 6resize ' . ((&columns * 24 + 69) / 138)
+exe '7resize ' . ((&lines * 12 + 15) / 30)
+exe 'vert 7resize ' . ((&columns * 36 + 69) / 138)
+exe '8resize ' . ((&lines * 8 + 15) / 30)
+exe 'vert 8resize ' . ((&columns * 36 + 69) / 138)
+exe '9resize ' . ((&lines * 1 + 15) / 30)
+exe 'vert 9resize ' . ((&columns * 36 + 69) / 138)
+exe '10resize ' . ((&lines * 1 + 15) / 30)
+exe 'vert 10resize ' . ((&columns * 36 + 69) / 138)
+exe '11resize ' . ((&lines * 1 + 15) / 30)
+exe 'vert 11resize ' . ((&columns * 36 + 69) / 138)
 argglobal
 nmap <buffer>  :w:execute "silent !".@%." ".expand('%:h')."/input >".expand('%:h')."/out 2>".expand('%:h')."/out.errors"
 nmap <buffer>   :g/\[x\]/m $:nohlgg
@@ -333,7 +333,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 10 - ((9 * winheight(0) + 5) / 11)
+let s:l = 10 - ((4 * winheight(0) + 2) / 5)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -456,7 +456,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 16) / 33)
+let s:l = 1 - ((0 * winheight(0) + 10) / 21)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -468,8 +468,8 @@ edit countdown.c
 let s:cpo_save=&cpo
 set cpo&vim
 imap <buffer> <Left> <Left>
-iabbr <buffer> #* /*/OA
 iabbr <buffer> #a assert();ODOD
+iabbr <buffer> #* /*/OA
 cabbr <buffer> e/ e .
 abbr <buffer> %/ .
 abbr <buffer> %p/ /Users/jason/Documents/AI/countdown/countdown_v2/src/countdown.c
@@ -584,23 +584,17 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-11
+15
 normal! zo
-14
+30
 normal! zo
-29
+32
 normal! zo
-31
+55
 normal! zo
-54
+62
 normal! zo
-60
-normal! zo
-67
-normal! zo
-90
-normal! zo
-let s:l = 102 - ((21 * winheight(0) + 20) / 41)
+let s:l = 102 - ((12 * winheight(0) + 11) / 23)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -612,8 +606,8 @@ edit node.c
 let s:cpo_save=&cpo
 set cpo&vim
 imap <buffer> <Left> <Left>
-iabbr <buffer> #* /*/OA
 iabbr <buffer> #a assert();ODOD
+iabbr <buffer> #* /*/OA
 cabbr <buffer> e/ e .
 abbr <buffer> %/ .
 abbr <buffer> %p/ /Users/jason/Documents/AI/countdown/countdown_v2/src/node.c
@@ -1095,7 +1089,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 295 - ((8 * winheight(0) + 13) / 26)
+let s:l = 295 - ((4 * winheight(0) + 6) / 12)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1216,7 +1210,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 6) / 12)
+let s:l = 1 - ((0 * winheight(0) + 4) / 8)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1589,28 +1583,28 @@ normal! zt
 normal! 0
 wincmd w
 3wincmd w
-exe '1resize ' . ((&lines * 11 + 24) / 48)
-exe 'vert 1resize ' . ((&columns * 23 + 71) / 143)
-exe '2resize ' . ((&lines * 33 + 24) / 48)
-exe 'vert 2resize ' . ((&columns * 23 + 71) / 143)
-exe '3resize ' . ((&lines * 41 + 24) / 48)
-exe 'vert 3resize ' . ((&columns * 81 + 71) / 143)
-exe '4resize ' . ((&lines * 1 + 24) / 48)
-exe 'vert 4resize ' . ((&columns * 81 + 71) / 143)
-exe '5resize ' . ((&lines * 1 + 24) / 48)
-exe 'vert 5resize ' . ((&columns * 55 + 71) / 143)
-exe '6resize ' . ((&lines * 1 + 24) / 48)
-exe 'vert 6resize ' . ((&columns * 25 + 71) / 143)
-exe '7resize ' . ((&lines * 26 + 24) / 48)
-exe 'vert 7resize ' . ((&columns * 37 + 71) / 143)
-exe '8resize ' . ((&lines * 12 + 24) / 48)
-exe 'vert 8resize ' . ((&columns * 37 + 71) / 143)
-exe '9resize ' . ((&lines * 1 + 24) / 48)
-exe 'vert 9resize ' . ((&columns * 37 + 71) / 143)
-exe '10resize ' . ((&lines * 1 + 24) / 48)
-exe 'vert 10resize ' . ((&columns * 37 + 71) / 143)
-exe '11resize ' . ((&lines * 1 + 24) / 48)
-exe 'vert 11resize ' . ((&columns * 37 + 71) / 143)
+exe '1resize ' . ((&lines * 5 + 15) / 30)
+exe 'vert 1resize ' . ((&columns * 22 + 69) / 138)
+exe '2resize ' . ((&lines * 21 + 15) / 30)
+exe 'vert 2resize ' . ((&columns * 22 + 69) / 138)
+exe '3resize ' . ((&lines * 23 + 15) / 30)
+exe 'vert 3resize ' . ((&columns * 78 + 69) / 138)
+exe '4resize ' . ((&lines * 1 + 15) / 30)
+exe 'vert 4resize ' . ((&columns * 78 + 69) / 138)
+exe '5resize ' . ((&lines * 1 + 15) / 30)
+exe 'vert 5resize ' . ((&columns * 53 + 69) / 138)
+exe '6resize ' . ((&lines * 1 + 15) / 30)
+exe 'vert 6resize ' . ((&columns * 24 + 69) / 138)
+exe '7resize ' . ((&lines * 12 + 15) / 30)
+exe 'vert 7resize ' . ((&columns * 36 + 69) / 138)
+exe '8resize ' . ((&lines * 8 + 15) / 30)
+exe 'vert 8resize ' . ((&columns * 36 + 69) / 138)
+exe '9resize ' . ((&lines * 1 + 15) / 30)
+exe 'vert 9resize ' . ((&columns * 36 + 69) / 138)
+exe '10resize ' . ((&lines * 1 + 15) / 30)
+exe 'vert 10resize ' . ((&columns * 36 + 69) / 138)
+exe '11resize ' . ((&lines * 1 + 15) / 30)
+exe 'vert 11resize ' . ((&columns * 36 + 69) / 138)
 tabedit ../include/node.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -1633,18 +1627,18 @@ wincmd w
 wincmd w
 wincmd t
 set winheight=1 winwidth=1
-exe '1resize ' . ((&lines * 28 + 24) / 48)
-exe 'vert 1resize ' . ((&columns * 31 + 71) / 143)
-exe '2resize ' . ((&lines * 15 + 24) / 48)
-exe 'vert 2resize ' . ((&columns * 73 + 71) / 143)
-exe '3resize ' . ((&lines * 12 + 24) / 48)
-exe 'vert 3resize ' . ((&columns * 73 + 71) / 143)
-exe '4resize ' . ((&lines * 8 + 24) / 48)
-exe 'vert 4resize ' . ((&columns * 37 + 71) / 143)
-exe '5resize ' . ((&lines * 7 + 24) / 48)
-exe 'vert 5resize ' . ((&columns * 37 + 71) / 143)
-exe '6resize ' . ((&lines * 11 + 24) / 48)
-exe 'vert 6resize ' . ((&columns * 37 + 71) / 143)
+exe '1resize ' . ((&lines * 18 + 15) / 30)
+exe 'vert 1resize ' . ((&columns * 30 + 69) / 138)
+exe '2resize ' . ((&lines * 9 + 15) / 30)
+exe 'vert 2resize ' . ((&columns * 70 + 69) / 138)
+exe '3resize ' . ((&lines * 8 + 15) / 30)
+exe 'vert 3resize ' . ((&columns * 70 + 69) / 138)
+exe '4resize ' . ((&lines * 5 + 15) / 30)
+exe 'vert 4resize ' . ((&columns * 36 + 69) / 138)
+exe '5resize ' . ((&lines * 4 + 15) / 30)
+exe 'vert 5resize ' . ((&columns * 36 + 69) / 138)
+exe '6resize ' . ((&lines * 7 + 15) / 30)
+exe 'vert 6resize ' . ((&columns * 36 + 69) / 138)
 argglobal
 cabbr <buffer> e/ e ../include
 abbr <buffer> %/ ../include
@@ -1762,7 +1756,7 @@ setlocal wrapmargin=0
 normal! zo
 24
 normal! zo
-let s:l = 14 - ((9 * winheight(0) + 14) / 28)
+let s:l = 14 - ((6 * winheight(0) + 9) / 18)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1774,9 +1768,9 @@ edit ../test/tnode.c
 let s:cpo_save=&cpo
 set cpo&vim
 imap <buffer> <Left> <Left>
-iabbr <buffer> printf printf("\n");ODODODODOD
-iabbr <buffer> #* /*/OA
 iabbr <buffer> #a assert();ODOD
+iabbr <buffer> #* /*/OA
+iabbr <buffer> printf printf("\n");ODODODODOD
 cabbr <buffer> e/ e ../test
 abbr <buffer> %/ ../test
 abbr <buffer> %p/ /Users/jason/Documents/AI/countdown/countdown_v2/test/tnode.c
@@ -1893,7 +1887,7 @@ setlocal wrap
 setlocal wrapmargin=0
 235
 normal! zo
-let s:l = 320 - ((11 * winheight(0) + 7) / 15)
+let s:l = 320 - ((7 * winheight(0) + 4) / 9)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -2016,7 +2010,7 @@ setlocal wrap
 setlocal wrapmargin=0
 6
 normal! zo
-let s:l = 2 - ((1 * winheight(0) + 6) / 12)
+let s:l = 2 - ((1 * winheight(0) + 4) / 8)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -2137,7 +2131,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 4) / 8)
+let s:l = 1 - ((0 * winheight(0) + 2) / 5)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -2258,7 +2252,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 3) / 7)
+let s:l = 1 - ((0 * winheight(0) + 2) / 4)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -2379,25 +2373,25 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 19 - ((3 * winheight(0) + 5) / 11)
+let s:l = 19 - ((2 * winheight(0) + 3) / 7)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 19
 normal! 0
 wincmd w
-exe '1resize ' . ((&lines * 28 + 24) / 48)
-exe 'vert 1resize ' . ((&columns * 31 + 71) / 143)
-exe '2resize ' . ((&lines * 15 + 24) / 48)
-exe 'vert 2resize ' . ((&columns * 73 + 71) / 143)
-exe '3resize ' . ((&lines * 12 + 24) / 48)
-exe 'vert 3resize ' . ((&columns * 73 + 71) / 143)
-exe '4resize ' . ((&lines * 8 + 24) / 48)
-exe 'vert 4resize ' . ((&columns * 37 + 71) / 143)
-exe '5resize ' . ((&lines * 7 + 24) / 48)
-exe 'vert 5resize ' . ((&columns * 37 + 71) / 143)
-exe '6resize ' . ((&lines * 11 + 24) / 48)
-exe 'vert 6resize ' . ((&columns * 37 + 71) / 143)
+exe '1resize ' . ((&lines * 18 + 15) / 30)
+exe 'vert 1resize ' . ((&columns * 30 + 69) / 138)
+exe '2resize ' . ((&lines * 9 + 15) / 30)
+exe 'vert 2resize ' . ((&columns * 70 + 69) / 138)
+exe '3resize ' . ((&lines * 8 + 15) / 30)
+exe 'vert 3resize ' . ((&columns * 70 + 69) / 138)
+exe '4resize ' . ((&lines * 5 + 15) / 30)
+exe 'vert 4resize ' . ((&columns * 36 + 69) / 138)
+exe '5resize ' . ((&lines * 4 + 15) / 30)
+exe 'vert 5resize ' . ((&columns * 36 + 69) / 138)
+exe '6resize ' . ((&lines * 7 + 15) / 30)
+exe 'vert 6resize ' . ((&columns * 36 + 69) / 138)
 tabnext 1
 set stal=1
 if exists('s:wipebuf')
