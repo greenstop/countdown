@@ -2,10 +2,10 @@ let SessionLoad = 1
 if &cp | set nocp | endif
 let s:cpo_save=&cpo
 set cpo&vim
+inoremap <Left> <Nop>
+inoremap <Right> <Nop>
 inoremap <silent> <S-Tab> =BackwardsSnippet()
 imap <S-BS>  
-inoremap <Right> <Nop>
-inoremap <Left> <Nop>
 map! <D-v> *
 nmap  :vertical resize -1
 snoremap <silent> 	 i<Right>=TriggerSnippet()
@@ -43,15 +43,16 @@ snoremap ` b<BS>`
 nmap cS <Plug>CSurround
 nmap cs <Plug>Csurround
 nmap ds <Plug>Dsurround
+nnoremap gm :call cursor(0, virtcol('$')/2)
 vmap gx <Plug>NetrwBrowseXVis
 nmap gx <Plug>NetrwBrowseX
 xmap gS <Plug>VgSurround
-nnoremap gm :call cursor(0, virtcol('$')/2)
 nmap ySS <Plug>YSsurround
 nmap ySs <Plug>YSsurround
 nmap yss <Plug>Yssurround
 nmap yS <Plug>YSurround
 nmap ys <Plug>Ysurround
+nmap <Up><Down> gm
 snoremap <Left> bi
 snoremap <Right> a
 snoremap <BS> b<BS>
@@ -61,7 +62,6 @@ nnoremap <silent> <Plug>NetrwBrowseX :call netrw#BrowseX(expand((exists("g:netrw
 nnoremap <silent> <Plug>SurroundRepeat .
 nmap <S-Right> ;
 nnoremap <S-Left> 0
-nmap <Up><Down> gm
 xmap <BS> "-d
 vmap <D-x> "*d
 vmap <D-c> "*y
@@ -112,6 +112,7 @@ set splitright
 set suffixes=.bak,~,.o,.h,.info,.swp,.obj,.class
 set tabstop=4
 set timeoutlen=200
+set window=33
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
@@ -126,7 +127,7 @@ badd +1 makefile
 badd +10 buffer_out.sh
 badd +4 notes.java
 badd +4 ../test/ttreenode.c
-badd +7 ../include/node.h
+badd +16 ../include/node.h
 badd +7 countdown.h
 badd +70 node.c
 badd +1 ../include/treenode.h
@@ -144,12 +145,19 @@ badd +1 ../data/out
 badd +1 ../data/errors
 badd +1 ../data/buffer_out.sh
 badd +6000 ../data/out_buffer
-badd +136 ~/.vimrc
+badd +153 ~/.vimrc
 badd +5 ../test/tcountdown.c
 badd +1 ../test/tmain.c
 badd +1 ../data/todo.java
 badd +1 ../data/tasks.txt
 badd +1 ../test/makefile
+badd +27 search.c
+badd +1 Problem.c
+badd +1 ../include/linkedlist.h
+badd +8 ../include/stack.h
+badd +1 ../include/qstack.h
+badd +1 qstack.c
+badd +0 ../include/problem.h
 argglobal
 silent! argdel *
 argadd ../test/tnode.c
@@ -170,7 +178,13 @@ wincmd _ | wincmd |
 split
 wincmd _ | wincmd |
 split
-2wincmd k
+wincmd _ | wincmd |
+split
+wincmd _ | wincmd |
+split
+4wincmd k
+wincmd w
+wincmd w
 wincmd w
 wincmd w
 wincmd _ | wincmd |
@@ -193,28 +207,32 @@ wincmd w
 wincmd w
 wincmd t
 set winheight=1 winwidth=1
-exe '1resize ' . ((&lines * 5 + 15) / 30)
-exe 'vert 1resize ' . ((&columns * 22 + 69) / 138)
-exe '2resize ' . ((&lines * 21 + 15) / 30)
-exe 'vert 2resize ' . ((&columns * 22 + 69) / 138)
-exe '3resize ' . ((&lines * 23 + 15) / 30)
-exe 'vert 3resize ' . ((&columns * 78 + 69) / 138)
-exe '4resize ' . ((&lines * 1 + 15) / 30)
-exe 'vert 4resize ' . ((&columns * 78 + 69) / 138)
-exe '5resize ' . ((&lines * 1 + 15) / 30)
-exe 'vert 5resize ' . ((&columns * 53 + 69) / 138)
-exe '6resize ' . ((&lines * 1 + 15) / 30)
-exe 'vert 6resize ' . ((&columns * 24 + 69) / 138)
-exe '7resize ' . ((&lines * 12 + 15) / 30)
-exe 'vert 7resize ' . ((&columns * 36 + 69) / 138)
-exe '8resize ' . ((&lines * 8 + 15) / 30)
-exe 'vert 8resize ' . ((&columns * 36 + 69) / 138)
-exe '9resize ' . ((&lines * 1 + 15) / 30)
-exe 'vert 9resize ' . ((&columns * 36 + 69) / 138)
-exe '10resize ' . ((&lines * 1 + 15) / 30)
-exe 'vert 10resize ' . ((&columns * 36 + 69) / 138)
-exe '11resize ' . ((&lines * 1 + 15) / 30)
-exe 'vert 11resize ' . ((&columns * 36 + 69) / 138)
+exe '1resize ' . ((&lines * 13 + 17) / 34)
+exe 'vert 1resize ' . ((&columns * 23 + 64) / 128)
+exe '2resize ' . ((&lines * 23 + 17) / 34)
+exe 'vert 2resize ' . ((&columns * 23 + 64) / 128)
+exe '3resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 3resize ' . ((&columns * 72 + 64) / 128)
+exe '4resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 4resize ' . ((&columns * 72 + 64) / 128)
+exe '5resize ' . ((&lines * 29 + 17) / 34)
+exe 'vert 5resize ' . ((&columns * 72 + 64) / 128)
+exe '6resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 6resize ' . ((&columns * 72 + 64) / 128)
+exe '7resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 7resize ' . ((&columns * 34 + 64) / 128)
+exe '8resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 8resize ' . ((&columns * 37 + 64) / 128)
+exe '9resize ' . ((&lines * 12 + 17) / 34)
+exe 'vert 9resize ' . ((&columns * 38 + 64) / 128)
+exe '10resize ' . ((&lines * 11 + 17) / 34)
+exe 'vert 10resize ' . ((&columns * 38 + 64) / 128)
+exe '11resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 11resize ' . ((&columns * 38 + 64) / 128)
+exe '12resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 12resize ' . ((&columns * 38 + 64) / 128)
+exe '13resize ' . ((&lines * 8 + 17) / 34)
+exe 'vert 13resize ' . ((&columns * 38 + 64) / 128)
 argglobal
 nmap <buffer>  :w:execute "silent !".@%." ".expand('%:h')."/input >".expand('%:h')."/out 2>".expand('%:h')."/out.errors"
 nmap <buffer>   :g/\[x\]/m $:nohlgg
@@ -274,6 +292,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=tcq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -333,11 +352,11 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 10 - ((4 * winheight(0) + 2) / 5)
+let s:l = 3 - ((2 * winheight(0) + 6) / 13)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-10
+3
 normal! 0
 wincmd w
 argglobal
@@ -397,6 +416,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -456,7 +476,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 10) / 21)
+let s:l = 1 - ((0 * winheight(0) + 11) / 23)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -468,8 +488,8 @@ edit countdown.c
 let s:cpo_save=&cpo
 set cpo&vim
 imap <buffer> <Left> <Left>
-iabbr <buffer> #a assert();ODOD
 iabbr <buffer> #* /*/OA
+iabbr <buffer> #a assert();ODOD
 cabbr <buffer> e/ e .
 abbr <buffer> %/ .
 abbr <buffer> %p/ /Users/jason/Documents/AI/countdown/countdown_v2/src/countdown.c
@@ -512,7 +532,7 @@ setlocal filetype=c
 endif
 setlocal fixendofline
 setlocal foldcolumn=0
-setlocal nofoldenable
+setlocal foldenable
 setlocal foldexpr=0
 setlocal foldignore=#
 setlocal foldlevel=0
@@ -525,6 +545,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -584,35 +605,20 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-15
+92
 normal! zo
-30
-normal! zo
-32
-normal! zo
-55
-normal! zo
-62
-normal! zo
-let s:l = 102 - ((12 * winheight(0) + 11) / 23)
+let s:l = 100 - ((0 * winheight(0) + 0) / 1)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-102
-normal! 05|
+100
+normal! 0
 wincmd w
 argglobal
-edit node.c
-let s:cpo_save=&cpo
-set cpo&vim
-imap <buffer> <Left> <Left>
-iabbr <buffer> #a assert();ODOD
-iabbr <buffer> #* /*/OA
+edit Problem.c
 cabbr <buffer> e/ e .
 abbr <buffer> %/ .
-abbr <buffer> %p/ /Users/jason/Documents/AI/countdown/countdown_v2/src/node.c
-let &cpo=s:cpo_save
-unlet s:cpo_save
+abbr <buffer> %p/ /Users/jason/Documents/AI/countdown/countdown_v2/src/Problem.c
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -663,6 +669,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -722,12 +729,267 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 74 - ((0 * winheight(0) + 0) / 1)
+let s:l = 47 - ((1 * winheight(0) + 0) / 1)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-74
-normal! 017|
+47
+normal! 0
+wincmd w
+argglobal
+edit qstack.c
+cabbr <buffer> e/ e .
+abbr <buffer> %/ .
+abbr <buffer> %p/ /Users/jason/Documents/AI/countdown/countdown_v2/src/qstack.c
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'c'
+setlocal filetype=c
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+set foldmethod=syntax
+setlocal foldmethod=syntax
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=ccomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'c'
+setlocal syntax=c
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+let s:l = 24 - ((22 * winheight(0) + 14) / 29)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+24
+normal! 0
+wincmd w
+argglobal
+edit node.c
+let s:cpo_save=&cpo
+set cpo&vim
+imap <buffer> <Left> <Left>
+iabbr <buffer> #* /*/OA
+iabbr <buffer> #a assert();ODOD
+cabbr <buffer> e/ e .
+abbr <buffer> %/ .
+abbr <buffer> %p/ /Users/jason/Documents/AI/countdown/countdown_v2/src/node.c
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'c'
+setlocal filetype=c
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+set foldmethod=syntax
+setlocal foldmethod=syntax
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=ccomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'c'
+setlocal syntax=c
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+32
+normal! zo
+65
+normal! zo
+let s:l = 31 - ((0 * winheight(0) + 0) / 1)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+31
+normal! 013|
 wincmd w
 argglobal
 edit ../include/node.h
@@ -784,6 +1046,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -909,6 +1172,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -1030,6 +1294,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=tcq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -1089,11 +1354,11 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 295 - ((4 * winheight(0) + 6) / 12)
+let s:l = 1 - ((0 * winheight(0) + 6) / 12)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-295
+1
 normal! 0
 wincmd w
 argglobal
@@ -1151,6 +1416,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=tcq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -1210,7 +1476,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 4) / 8)
+let s:l = 1 - ((0 * winheight(0) + 5) / 11)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -1272,6 +1538,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -1395,6 +1662,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=tcq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -1454,11 +1722,11 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 5 - ((0 * winheight(0) + 0) / 1)
+let s:l = 6 - ((0 * winheight(0) + 0) / 1)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-5
+6
 normal! 021|
 wincmd w
 argglobal
@@ -1516,6 +1784,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -1575,36 +1844,39 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 48 - ((0 * winheight(0) + 0) / 1)
+let s:l = 48 - ((0 * winheight(0) + 4) / 8)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 48
 normal! 0
 wincmd w
-3wincmd w
-exe '1resize ' . ((&lines * 5 + 15) / 30)
-exe 'vert 1resize ' . ((&columns * 22 + 69) / 138)
-exe '2resize ' . ((&lines * 21 + 15) / 30)
-exe 'vert 2resize ' . ((&columns * 22 + 69) / 138)
-exe '3resize ' . ((&lines * 23 + 15) / 30)
-exe 'vert 3resize ' . ((&columns * 78 + 69) / 138)
-exe '4resize ' . ((&lines * 1 + 15) / 30)
-exe 'vert 4resize ' . ((&columns * 78 + 69) / 138)
-exe '5resize ' . ((&lines * 1 + 15) / 30)
-exe 'vert 5resize ' . ((&columns * 53 + 69) / 138)
-exe '6resize ' . ((&lines * 1 + 15) / 30)
-exe 'vert 6resize ' . ((&columns * 24 + 69) / 138)
-exe '7resize ' . ((&lines * 12 + 15) / 30)
-exe 'vert 7resize ' . ((&columns * 36 + 69) / 138)
-exe '8resize ' . ((&lines * 8 + 15) / 30)
-exe 'vert 8resize ' . ((&columns * 36 + 69) / 138)
-exe '9resize ' . ((&lines * 1 + 15) / 30)
-exe 'vert 9resize ' . ((&columns * 36 + 69) / 138)
-exe '10resize ' . ((&lines * 1 + 15) / 30)
-exe 'vert 10resize ' . ((&columns * 36 + 69) / 138)
-exe '11resize ' . ((&lines * 1 + 15) / 30)
-exe 'vert 11resize ' . ((&columns * 36 + 69) / 138)
+exe '1resize ' . ((&lines * 13 + 17) / 34)
+exe 'vert 1resize ' . ((&columns * 23 + 64) / 128)
+exe '2resize ' . ((&lines * 23 + 17) / 34)
+exe 'vert 2resize ' . ((&columns * 23 + 64) / 128)
+exe '3resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 3resize ' . ((&columns * 72 + 64) / 128)
+exe '4resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 4resize ' . ((&columns * 72 + 64) / 128)
+exe '5resize ' . ((&lines * 29 + 17) / 34)
+exe 'vert 5resize ' . ((&columns * 72 + 64) / 128)
+exe '6resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 6resize ' . ((&columns * 72 + 64) / 128)
+exe '7resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 7resize ' . ((&columns * 34 + 64) / 128)
+exe '8resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 8resize ' . ((&columns * 37 + 64) / 128)
+exe '9resize ' . ((&lines * 12 + 17) / 34)
+exe 'vert 9resize ' . ((&columns * 38 + 64) / 128)
+exe '10resize ' . ((&lines * 11 + 17) / 34)
+exe 'vert 10resize ' . ((&columns * 38 + 64) / 128)
+exe '11resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 11resize ' . ((&columns * 38 + 64) / 128)
+exe '12resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 12resize ' . ((&columns * 38 + 64) / 128)
+exe '13resize ' . ((&lines * 8 + 17) / 34)
+exe 'vert 13resize ' . ((&columns * 38 + 64) / 128)
 tabedit ../include/node.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -1612,6 +1884,19 @@ vsplit
 wincmd _ | wincmd |
 vsplit
 2wincmd h
+wincmd _ | wincmd |
+split
+wincmd _ | wincmd |
+split
+wincmd _ | wincmd |
+split
+wincmd _ | wincmd |
+split
+4wincmd k
+wincmd w
+wincmd w
+wincmd w
+wincmd w
 wincmd w
 wincmd _ | wincmd |
 split
@@ -1627,18 +1912,26 @@ wincmd w
 wincmd w
 wincmd t
 set winheight=1 winwidth=1
-exe '1resize ' . ((&lines * 18 + 15) / 30)
-exe 'vert 1resize ' . ((&columns * 30 + 69) / 138)
-exe '2resize ' . ((&lines * 9 + 15) / 30)
-exe 'vert 2resize ' . ((&columns * 70 + 69) / 138)
-exe '3resize ' . ((&lines * 8 + 15) / 30)
-exe 'vert 3resize ' . ((&columns * 70 + 69) / 138)
-exe '4resize ' . ((&lines * 5 + 15) / 30)
-exe 'vert 4resize ' . ((&columns * 36 + 69) / 138)
-exe '5resize ' . ((&lines * 4 + 15) / 30)
-exe 'vert 5resize ' . ((&columns * 36 + 69) / 138)
-exe '6resize ' . ((&lines * 7 + 15) / 30)
-exe 'vert 6resize ' . ((&columns * 36 + 69) / 138)
+exe '1resize ' . ((&lines * 7 + 17) / 34)
+exe 'vert 1resize ' . ((&columns * 43 + 64) / 128)
+exe '2resize ' . ((&lines * 4 + 17) / 34)
+exe 'vert 2resize ' . ((&columns * 43 + 64) / 128)
+exe '3resize ' . ((&lines * 14 + 17) / 34)
+exe 'vert 3resize ' . ((&columns * 43 + 64) / 128)
+exe '4resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 4resize ' . ((&columns * 43 + 64) / 128)
+exe '5resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 5resize ' . ((&columns * 43 + 64) / 128)
+exe '6resize ' . ((&lines * 29 + 17) / 34)
+exe 'vert 6resize ' . ((&columns * 62 + 64) / 128)
+exe '7resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 7resize ' . ((&columns * 62 + 64) / 128)
+exe '8resize ' . ((&lines * 17 + 17) / 34)
+exe 'vert 8resize ' . ((&columns * 21 + 64) / 128)
+exe '9resize ' . ((&lines * 11 + 17) / 34)
+exe 'vert 9resize ' . ((&columns * 21 + 64) / 128)
+exe '10resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 10resize ' . ((&columns * 21 + 64) / 128)
 argglobal
 cabbr <buffer> e/ e ../include
 abbr <buffer> %/ ../include
@@ -1693,6 +1986,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -1756,21 +2050,513 @@ setlocal wrapmargin=0
 normal! zo
 24
 normal! zo
-let s:l = 14 - ((6 * winheight(0) + 9) / 18)
+let s:l = 16 - ((0 * winheight(0) + 3) / 7)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-14
+16
 normal! 0
+wincmd w
+argglobal
+edit ../include/problem.h
+cabbr <buffer> e/ e ../include
+abbr <buffer> %/ ../include
+abbr <buffer> %p/ /Users/jason/Documents/AI/countdown/countdown_v2/include/problem.h
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+set foldmethod=syntax
+setlocal foldmethod=syntax
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=ccomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+let s:l = 2 - ((1 * winheight(0) + 2) / 4)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+2
+normal! 0
+wincmd w
+argglobal
+edit ../include/qstack.h
+cabbr <buffer> e/ e ../include
+abbr <buffer> %/ ../include
+abbr <buffer> %p/ /Users/jason/Documents/AI/countdown/countdown_v2/include/qstack.h
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+set foldmethod=syntax
+setlocal foldmethod=syntax
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=ccomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+6
+normal! zo
+let s:l = 1 - ((0 * winheight(0) + 7) / 14)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+1
+normal! 010|
+wincmd w
+argglobal
+edit ../include/linkedlist.h
+cabbr <buffer> e/ e ../include
+abbr <buffer> %/ ../include
+abbr <buffer> %p/ /Users/jason/Documents/AI/countdown/countdown_v2/include/linkedlist.h
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+set foldmethod=syntax
+setlocal foldmethod=syntax
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=ccomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+3
+normal! zo
+let s:l = 5 - ((1 * winheight(0) + 0) / 1)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+5
+normal! 018|
+wincmd w
+argglobal
+edit ../include/countdown.h
+cabbr <buffer> e/ e ../include
+abbr <buffer> %/ ../include
+abbr <buffer> %p/ /Users/jason/Documents/AI/countdown/countdown_v2/include/countdown.h
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+set foldmethod=syntax
+setlocal foldmethod=syntax
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=0
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=ccomplete#Complete
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=4
+setlocal noshortname
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=4
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=4
+setlocal tagcase=
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+let s:l = 10 - ((1 * winheight(0) + 0) / 1)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+10
+normal! 011|
 wincmd w
 argglobal
 edit ../test/tnode.c
 let s:cpo_save=&cpo
 set cpo&vim
 imap <buffer> <Left> <Left>
-iabbr <buffer> #a assert();ODOD
-iabbr <buffer> #* /*/OA
 iabbr <buffer> printf printf("\n");ODODODODOD
+iabbr <buffer> #* /*/OA
+iabbr <buffer> #a assert();ODOD
 cabbr <buffer> e/ e ../test
 abbr <buffer> %/ ../test
 abbr <buffer> %p/ /Users/jason/Documents/AI/countdown/countdown_v2/test/tnode.c
@@ -1813,7 +2599,7 @@ setlocal filetype=c
 endif
 setlocal fixendofline
 setlocal foldcolumn=0
-setlocal nofoldenable
+setlocal foldenable
 setlocal foldexpr=0
 setlocal foldignore=#
 setlocal foldlevel=0
@@ -1826,6 +2612,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -1885,14 +2672,46 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-235
+148
 normal! zo
-let s:l = 320 - ((7 * winheight(0) + 4) / 9)
+511
+normal! zo
+562
+normal! zo
+511
+normal! zc
+632
+normal! zo
+666
+normal! zo
+669
+normal! zo
+639
+normal! zo
+642
+normal! zo
+649
+normal! zo
+652
+normal! zo
+726
+normal! zo
+729
+normal! zo
+642
+normal! zc
+649
+normal! zo
+744
+normal! zo
+747
+normal! zo
+let s:l = 645 - ((5 * winheight(0) + 14) / 29)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-320
-normal! 0
+645
+normal! 01|
 wincmd w
 argglobal
 edit ../test/tmain.c
@@ -1949,6 +2768,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -2008,13 +2828,13 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-6
+7
 normal! zo
-let s:l = 2 - ((1 * winheight(0) + 4) / 8)
+let s:l = 1 - ((0 * winheight(0) + 0) / 1)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-2
+1
 normal! 0
 wincmd w
 argglobal
@@ -2072,6 +2892,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=tcq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -2131,7 +2952,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 2) / 5)
+let s:l = 1 - ((0 * winheight(0) + 8) / 17)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -2193,6 +3014,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=tcq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -2252,12 +3074,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 1 - ((0 * winheight(0) + 2) / 4)
+let s:l = 1 - ((0 * winheight(0) + 5) / 11)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 1
-normal! 038|
+normal! 09|
 wincmd w
 argglobal
 edit ../test/makefile
@@ -2314,6 +3136,7 @@ setlocal foldtext=foldtext()
 setlocal formatexpr=
 setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
@@ -2373,26 +3196,35 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 19 - ((2 * winheight(0) + 3) / 7)
+let s:l = 53 - ((0 * winheight(0) + 0) / 1)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-19
-normal! 0
+53
+normal! 03|
 wincmd w
-exe '1resize ' . ((&lines * 18 + 15) / 30)
-exe 'vert 1resize ' . ((&columns * 30 + 69) / 138)
-exe '2resize ' . ((&lines * 9 + 15) / 30)
-exe 'vert 2resize ' . ((&columns * 70 + 69) / 138)
-exe '3resize ' . ((&lines * 8 + 15) / 30)
-exe 'vert 3resize ' . ((&columns * 70 + 69) / 138)
-exe '4resize ' . ((&lines * 5 + 15) / 30)
-exe 'vert 4resize ' . ((&columns * 36 + 69) / 138)
-exe '5resize ' . ((&lines * 4 + 15) / 30)
-exe 'vert 5resize ' . ((&columns * 36 + 69) / 138)
-exe '6resize ' . ((&lines * 7 + 15) / 30)
-exe 'vert 6resize ' . ((&columns * 36 + 69) / 138)
-tabnext 1
+6wincmd w
+exe '1resize ' . ((&lines * 7 + 17) / 34)
+exe 'vert 1resize ' . ((&columns * 43 + 64) / 128)
+exe '2resize ' . ((&lines * 4 + 17) / 34)
+exe 'vert 2resize ' . ((&columns * 43 + 64) / 128)
+exe '3resize ' . ((&lines * 14 + 17) / 34)
+exe 'vert 3resize ' . ((&columns * 43 + 64) / 128)
+exe '4resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 4resize ' . ((&columns * 43 + 64) / 128)
+exe '5resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 5resize ' . ((&columns * 43 + 64) / 128)
+exe '6resize ' . ((&lines * 29 + 17) / 34)
+exe 'vert 6resize ' . ((&columns * 62 + 64) / 128)
+exe '7resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 7resize ' . ((&columns * 62 + 64) / 128)
+exe '8resize ' . ((&lines * 17 + 17) / 34)
+exe 'vert 8resize ' . ((&columns * 21 + 64) / 128)
+exe '9resize ' . ((&lines * 11 + 17) / 34)
+exe 'vert 9resize ' . ((&columns * 21 + 64) / 128)
+exe '10resize ' . ((&lines * 1 + 17) / 34)
+exe 'vert 10resize ' . ((&columns * 21 + 64) / 128)
+tabnext 2
 set stal=1
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf

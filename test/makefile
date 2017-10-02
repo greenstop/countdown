@@ -1,6 +1,8 @@
 #These are variables
 #name the compiler
 CC = gcc
+
+#eliminate a competing module with a main function
 XMAINFILE=countdown.o
 
 #name the include dir for headers

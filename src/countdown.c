@@ -98,6 +98,8 @@ int main ()
     assert( actionsSize == 4);
 
     //setup
+    //setGoal( 315); //stated as no solution
+    //int seq[] = {4, 2, 7, 1, 4, 2};
     //setGoal( 801);
     //int seq[] = {75, 25, 4 ,9, 10, 5};
     setGoal( 226);

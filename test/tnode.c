@@ -490,6 +490,256 @@ void testNewNodeSubsetNum()
     freeNode( node);
     freeNode( newNode);
 }
+/* Generic function
+ */
+int f(int n) 
+{
+    return n + 1;   
+}
+
+/* test function pointer
+ */
+void testFunctionPointers() 
+{
+    int (*g)(int) = f;
+    assert( g(5) == 6);
+}
+
+/* Test Problem class
+ */
+void testProblemClass() 
+{
+    //check allocation via malloc
+    Problem *p = NULL;
+    p = (Problem*) malloc(sizeof(Problem));
+    assert( p != NULL);
+    free(p);
+
+    //check normal declaration
+    Problem q;
+    q.name = "Hellos";
+    assert( strcmp(q.name,"Hellos") == 0);
+    
+    //check function assignment
+    q.f = f; //generic f()
+    assert( q.f(47) == 48 );
+
+    //test init for class 
+    //assign function to pointerass Problem
+    //q.init = __Problem_init; 
+    //char *s = "New Class Problem";
+    //p = &q;
+    //q.init(p, s);
+    //assert( strcmp(q.name,s)==0);
+
+    //test constructor
+    char *s = "Look for Corners Problem";
+    p = ProblemConstructor();
+    p->init(p,s);
+    assert( strcmp(p->name,s)==0);
+    
+    //allocate initial state
+    State *state = NULL;
+    state = p->getInitialState(p);
+    int m1=47, m2=48, m3=49;
+    int *n1 = &m1, *n2=&m2, *n3=&m3;
+    state->p = n1;
+    assert( *(int*)(state->p) == 47);
+    free(state);
+
+    //array of states
+    State **states = NULL;
+    states = p->getSuccessors(p,state);
+    states[0]->p = n1;
+    states[1]->p = n2;
+    states[2]->p = n3;
+    assert( *(int*)(states[0]->p) == 47);
+    assert( *(int*)states[1]->p == 48);
+    assert( *(int*)(states[2]->p) == 49);
+
+    //free allocations
+    int i;
+    for(i=0; i<3; i++) { //3 is hardcoded
+        free(states[i]);
+    }
+    free(states);
+    free(p);
+
+
+    return;   
+}
+
+/* try to pass a struct
+ * ***Results in invalid read from different stack****
+ */
+Linkedlist passLinkedList()
+{
+    Linkedlist list;
+    int i = 68, j=76;
+    int *d = &i;
+    list.content = d;
+    Linkedlist list2;
+    d = &j;
+    list2.content = d;
+    list.back = &list2;
+    assert( *(int*)list.back->content == 76);
+    return list;
+}
+
+/* use a struct as a parameter
+ * ***Results in invalid read from different stack****
+ */
+void testLLparam(Linkedlist list) 
+{
+    assert( *(int*)list.content == 68);
+    assert( *(int*)list.back->content == 76);
+}
+
+/* test LinkedList
+ */
+void tLinkedList() 
+{
+    Linkedlist list;
+    int i=3, j=48;
+    int *d=&i;
+    list.content = d;
+    assert( *(int*)list.content == 3);
+
+    Linkedlist list2;
+    d = &j;
+    list2.content = d;//put in package
+    list.back = &list2;//attach
+    assert( *(int*)list.back->content == 48);
+
+    //Linkedlist list3 = passLinkedList();
+    //assert( *(int*)list3.content == 68);
+    //assert( *(int*)list3.back->content == 76);
+    //*(int*)list3.back->content=98;
+    //assert( *(int*)list3.back->content == 98);
+
+    //testLLparam(passLinkedList());
+}
+
+/* test pass qstack
+ * RESULTS: changes head and tail pointer
+ * values in a local copy but still
+ * frees the malloc'd items in stack
+ * resulting in undefined state in
+ * other copies relying on those
+ * gone malloc'd pointers
+ */
+void testPassedQStack(QStack s) 
+{
+    struct points { int x; int y; };
+    assert( ((struct points*)s.pop(&s))->x == 13);
+    assert( ((struct points*)s.pop(&s))->x == 38);
+    assert( ((struct points*)s.pop(&s))->x == 5);
+}
+
+/* test referenced stack
+ */
+void testRefStack(QStack *s)
+{
+    struct points { int x; int y; };
+    assert( ((struct points*)s->pop(s))->x == 13);
+    assert( ((struct points*)s->pop(s))->x == 38);
+    assert( ((struct points*)s->pop(s))->x == 856);
+}
+
+/* test QStack operations
+ */
+void tQstack() 
+{
+    QStack s = QStackInit();
+    struct points { int x; int y; };
+    struct points pt={3,6}, pt2={7,1}, pt3={32,9};
+    assert( pt.x==3 && pt.y==6 && pt3.x==32);
+
+    s.push(&s,&pt);
+    s.push(&s,&pt2);
+    s.push(&s,&pt3);
+
+    assert( ((struct points*)s.pop(&s))->x == 32);
+    assert( ((struct points*)s.pop(&s))->x == 7);
+    assert( ((struct points*)s.pop(&s))->x == 3);
+    assert( s.pop(&s) == NULL);
+
+    s.enqueue(&s,&pt);
+    s.enqueue(&s,&pt2);
+    s.enqueue(&s,&pt3);
+
+    assert( ((struct points*)s.dequeue(&s))->x == 3);
+    assert( ((struct points*)s.dequeue(&s))->x == 7);
+    assert( ((struct points*)s.dequeue(&s))->x == 32);
+    assert( s.dequeue(&s) == NULL );
+
+    struct points *p = malloc(sizeof(struct points)*3);
+    p[0].x=5;
+    p[0].y=62;
+    p[1].x=38;
+    p[1].y=1;
+    p[2].x=13;
+    p[2].y=14;
+    //p[3].x=13; //invalid write
+    assert( p[1].x == 38);
+
+    s.push(&s,&p[0]);
+    s.push(&s,&p[1]);
+    s.push(&s,&p[2]);
+
+    //testPassedQStack(s); undefined state
+
+    assert( ((struct points*)s.pop(&s))->x == 13);
+    assert( ((struct points*)s.pop(&s))->x == 38);
+    assert( ((struct points*)s.pop(&s))->x == 5);
+
+    p[0]=pt; //assign local to malloc'd
+    assert( p[0].x == 3);
+    s.push(&s,&p[0]);
+    assert( ((struct points*)s.pop(&s))->x == 3);
+    
+    //assign initialization to malloc'd
+    p[0] = (struct points) {856,49}; 
+    assert( p[0].x == 856);
+    s.push(&s,&p[0]);
+    assert( ((struct points*)s.pop(&s))->x == 856);
+
+    s.push(&s,&p[0]);
+    s.enqueue(&s,&p[1]);
+    s.push(&s,&p[2]);
+
+    assert( ((struct points*)s.dequeue(&s))->x == 856);
+    assert( s.head != NULL);
+    assert( ((struct points*)s.pop(&s))->x == 13);
+    assert( ((struct points*)s.dequeue(&s))->x == 38);
+    assert( s.dequeue(&s) == NULL );
+    assert( s.pop(&s) == NULL );
+
+    //test local to malloc'd
+    QStack *stack = (QStack*) malloc(sizeof(QStack));
+    *stack = QStackInit();
+
+    stack->push(stack,&p[0]);
+    assert( stack->head != NULL);
+    stack->enqueue(stack,&p[1]);
+    stack->push(stack,&p[2]);
+
+    assert( ((struct points*)stack->dequeue(stack))->x == 856);
+    assert( ((struct points*)stack->pop(stack))->x == 13);
+    assert( ((struct points*)stack->dequeue(stack))->x == 38);
+
+    stack->push(stack,&p[0]);
+    assert( stack->head != NULL);
+    stack->enqueue(stack,&p[1]);
+    stack->push(stack,&p[2]);
+    
+    testRefStack(stack);
+    assert( stack->dequeue(stack) == NULL );
+    assert( stack->pop(stack) == NULL );
+
+    free(stack);
+    free(p);//frees entire block (all 3 pointers)
+}
 
 /* test node.c
  */
@@ -509,6 +759,10 @@ int tnode()
     testGetGoal();
     teststdbool();
     testNewNodeSubsetNum();
+    testFunctionPointers();
+    testProblemClass();
+    tLinkedList();
+    tQstack();
     return 0;
 }
 
